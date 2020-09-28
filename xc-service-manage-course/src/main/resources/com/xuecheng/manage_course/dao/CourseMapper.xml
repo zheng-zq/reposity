@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuecheng.manage_course.dao.CourseMapper">
+
+    <!--mybatis:用于复杂的查询操作  有对应的xml文件:CourseMapper.xml-->
+
+    <select id="findCourseBaseById" parameterType="java.lang.String"
+            resultType="com.xuecheng.framework.domain.course.CourseBase">
+        select * from course_base where id = #{id}
+    </select>
+    <!--分页查询-->
+    <select id="findCourseList" resultType="com.xuecheng.framework.domain.course.CourseBase">
+        select * from course_base
+    </select>
+    <!--查询我的课程-->
+    <select id="selectCourseList" resultType="com.xuecheng.framework.domain.course.ext.CourseInfo">
+        <!--SELECT a.name, b.pic FROM course_base a,course_pic b WHERE a.id = b.courseid-->
+        SELECT a.*, b.* FROM course_base a LEFT JOIN course_pic b ON a.id = b.courseid
+    </select>
+
+    <!--根据公司id查询我的课程信息-->
+    <select id="findCourseListPage"
+            resultType="com.xuecheng.framework.domain.course.ext.CourseInfo"
+            parameterType="com.xuecheng.framework.domain.course.request.CourseListRequest">
+        SELECT
+        course_base.*,
+        (SELECT pic FROM course_pic WHERE courseid = course_base.id) pic
+        FROM
+        course_base
+        where company_id = #{companyId}
+    </select>
+
+    <!--查询我的课程-->
+    <!--<select id="selectCourseList" resultType="com.xuecheng.framework.domain.course.ext.CourseInfo">
+        &lt;!&ndash;SELECT a.name, b.pic FROM course_base a,course_pic b WHERE a.id = b.courseid&ndash;&gt;
+        SELECT a.*, b.* FROM course_base a LEFT JOIN course_pic b ON a.id = b.courseid
+    </select>-->
+</mapper>
