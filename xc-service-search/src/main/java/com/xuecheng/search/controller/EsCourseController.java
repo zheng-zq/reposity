@@ -23,18 +23,21 @@ public class EsCourseController implements EsCourseControllerApi {
     EsCourseService esCourseService;
 
     //通过搜索查询的响应结果
+    @Override
     @GetMapping(value = "/list/{page}/{size}")
     public QueryResponseResult<CoursePub> list(@PathVariable("page") int page, @PathVariable("size") int size, CourseSearchParam courseSearchParam) throws Exception {
         return esCourseService.list(page, size, courseSearchParam);
     }
 
     //根据课程id查询课程信息
+    @Override
     @GetMapping("/getall/{id}")
     public Map<String, CoursePub> getall(@PathVariable("id") String id) {
         return esCourseService.getall(id);
     }
 
     //根据课程计划id查询课程媒资信息
+    @Override
     @GetMapping(value = "/getmedia/{teachplanId}")
     public TeachplanMediaPub getmedia(@PathVariable("teachplanId") String teachplanId) {
         //1 将课程计划id放在数组中,为调用service做准备

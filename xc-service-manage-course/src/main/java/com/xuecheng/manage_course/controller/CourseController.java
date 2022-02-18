@@ -30,6 +30,7 @@ public class CourseController extends BaseController implements CourseController
     CourseService courseService;
 
     //查询教学计划页面根据课程Id
+    @Override
     @PreAuthorize("hasAuthority('course_teachplan_list')")//拥有course_teachplan_list权限的用户才可以访问此方法。
     @GetMapping("/teachplan/list/{courseId}")
     public TeachplanNode findTeachplanList(@PathVariable("courseId") String courseId) {//@PathVariable路径值 值来自于前端传过来的url路径
@@ -37,6 +38,7 @@ public class CourseController extends BaseController implements CourseController
     }
 
     //添加教学计划页面
+    @Override
     @PreAuthorize("hasAuthority('course_teachplan_add')")//拥有course_teachplan_list权限的用户才可以访问此方法。
     @PostMapping("/teachplan/add")
     public ResponseResult addTeachplan(@RequestBody Teachplan teachplan) {//@RequestBody 将前端传过来的数据转换为json数据
@@ -54,18 +56,21 @@ public class CourseController extends BaseController implements CourseController
 
 
     //我的课程新增按钮:将我的新增的课程页面信息提交到数据库
+    @Override
     @PostMapping("/coursebase/add")
     public AddCourseResult addCourseBase(@RequestBody CourseBase courseBase) {
         return courseService.addCourseBase(courseBase);
     }
 
     //我的课程查询按钮:根据要修改的课程id查询课程页面信息进行回显
+    @Override
     @GetMapping("/coursebase/get/{courseId}")
     public CourseBase getCourseBaseById(@PathVariable String courseId) throws RuntimeException {
         return courseService.getCoursebaseById(courseId);
     }
 
     //我的课程更新按钮:根据要修改的课程id更新数据库的课程页面信息
+    @Override
     @PutMapping("/coursebase/update/{id}")
     public ResponseResult updateCourseBase(@PathVariable String id, @RequestBody CourseBase courseBase) {
         return courseService.updateCoursebase(id, courseBase);
@@ -73,12 +78,14 @@ public class CourseController extends BaseController implements CourseController
 
 
     //根据要修改的我的课程id查询课程营销页面信息
+    @Override
     @GetMapping("/coursemarket/get/{courseId}")
     public CourseMarket getCourseMarketById(@PathVariable("courseId") String courseId) {
         return courseService.getCourseMarketById(courseId);
     }
 
     //根据要修改的我的课程id和用户更改的课程营销信息更新课程营销信息
+    @Override
     @PostMapping("/coursemarket/update/{id}")
     public ResponseResult updateCourseMarket(@PathVariable("id") String id, @RequestBody CourseMarket courseMarket) {
         CourseMarket courseMarket_u = courseService.updateCourseMarket(id, courseMarket);
@@ -90,43 +97,51 @@ public class CourseController extends BaseController implements CourseController
     }
 
     //添加课程图片
+    @Override
     @PostMapping("/coursepic/add")
     public ResponseResult addCoursePic(@RequestParam("courseId") String courseId, @RequestParam("pic") String pic) {
         return courseService.saveCoursePic(courseId, pic);
     }
 
     //根据课程id查询课程图片然后回显
+    @Override
     @GetMapping("/coursepic/list/{courseId}")
     public CoursePic findCoursePic(@PathVariable("courseId") String courseId) {
         return courseService.findCoursePic(courseId);
     }
 
     //根据课程id删除课程回显图片
-    @PreAuthorize("hasAuthority('course_find_pic')")//拥有course_teachplan_list权限的用户才可以访问此方法。
+    @Override
+    @PreAuthorize("hasAuthority('course_find_pic')")
+    //拥有course_teachplan_list权限的用户才可以访问此方法。
     @DeleteMapping("/coursepic/delete")
     public ResponseResult deleteCoursePic(@RequestParam("courseId") String courseId) {
         return courseService.deleteCoursePic(courseId);
     }
 
     //根据课程id查询课程视图
+    @Override
     @GetMapping("/courseview/{id}")
     public CourseView courseview(@PathVariable("id") String id) {
         return courseService.getCoruseView(id);
     }
 
     //3 页面预览
+    @Override
     @PostMapping("/preview/{id}")
     public CoursePublishResult preview(@PathVariable("id") String id) {
         return courseService.preview(id);
     }
 
     //一键发布之页面发布
+    @Override
     @PostMapping("/publish/{id}")
     public CoursePublishResult publish(@PathVariable("id") String id) {
         return courseService.publish(id);
     }
 
     //保存课程计划与媒体文件关联
+    @Override
     @PostMapping("/savemedia")
     public ResponseResult savemedia(@RequestBody TeachplanMedia teachplanMedia) {
         return courseService.savemedia(teachplanMedia);
@@ -134,6 +149,7 @@ public class CourseController extends BaseController implements CourseController
 
     //查询我的课程列表并进行分页(通过指定页面page,每页显示条数size)
 //    @GetMapping("/coursebase/list/{page}/{size}")
+    @Override
     @GetMapping("/coursebase/list/{page}/{size}")
     public QueryResponseResult findCourseList(@PathVariable("page") int page,
                                               @PathVariable("size") int size,
@@ -144,12 +160,9 @@ public class CourseController extends BaseController implements CourseController
         if (userJwt == null) {
             ExceptionCast.cast(CommonCode.UNAUTHENTICATED);
         }
-        String company_id = userJwt.getCompanyId();
-
 //        //先使用静态数据测试
 //        String company_id = "2";
-        QueryResponseResult<CourseInfo> queryResponseResult = courseService.findCourseList(company_id, page, size, courseListRequest);
-        return queryResponseResult;
+        return courseService.findCourseList(userJwt.getCompanyId(), page, size, courseListRequest);
     }
 
 

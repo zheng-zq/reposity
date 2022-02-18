@@ -44,7 +44,7 @@ public class MediaProcessTask {
         MediaFile mediaFile = optional.get();
         //  只处理avi格式的,所以在这里先判断是不是avi格式
         String fileType = mediaFile.getFileType();
-        if (!fileType.equals("avi")) {
+        if (!"avi".equals(fileType)) {
             mediaFile.setProcessStatus("303004");//"无需处理"
             mediaFileRepository.save(mediaFile);
             return;
@@ -60,7 +60,7 @@ public class MediaProcessTask {
         //  创建工具类对象
         Mp4VideoUtil mp4VideoUtil = new Mp4VideoUtil(ffmpeg_path, video_path, mp4_name, mp4folder_path);
         String result = mp4VideoUtil.generateMp4();
-        if (result == null || !result.equals("success")) {
+        if (result == null || !"success".equals(result)) {
             //处理失败
             mediaFile.setProcessStatus("303003");
             //定义mediaFileProcess_m3u8
@@ -81,7 +81,7 @@ public class MediaProcessTask {
         HlsVideoUtil hlsVideoUtil = new HlsVideoUtil(ffmpeg_path, mp4_video_path, m3u8_name, m3u8folder_path);
         //  生成m3u8和ts文件操作的结果
         String tsResult = hlsVideoUtil.generateM3u8();
-        if (tsResult == null || !tsResult.equals("success")) {
+        if (tsResult == null || !"success".equals(tsResult)) {
             //处理失败
             mediaFile.setProcessStatus("303003");
             //定义mediaFileProcess_m3u8

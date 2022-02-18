@@ -23,8 +23,7 @@ public class FeignClientInterceptor implements RequestInterceptor {
                     while (headerNames.hasMoreElements()) {
                         String name = headerNames.nextElement();
                         String values = request.getHeader(name);
-                        if (name.equals("authorization")) {
-                            //System.out.println("name="+name+"values="+values);
+                        if ("authorization".equals(name)) {
                             requestTemplate.header(name, values);
                         }
                     }

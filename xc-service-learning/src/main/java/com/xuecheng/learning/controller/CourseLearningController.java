@@ -18,6 +18,7 @@ public class CourseLearningController implements CourseLearningControllerApi {
     LearningService learningService;
 
     //根据课程计划id查询视频播放地址
+    @Override
     @GetMapping("/getmedia/{courseId}/{teachplanId}")
     public GetMediaResult getmedia(@PathVariable("courseId") String courseId,
                                    @PathVariable("teachplanId") String teachplanId

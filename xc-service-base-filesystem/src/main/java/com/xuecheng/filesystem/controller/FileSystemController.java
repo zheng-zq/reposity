@@ -17,6 +17,7 @@ public class FileSystemController implements FileSystemControllerApi {
 
 
     //将文件信息存入数据库，主要存储文件系统中的文件路径。
+    @Override
     @PostMapping("/upload")
     public UploadFileResult upload(/*@RequestParam("multipartFile")*/ MultipartFile multipartFile,//文件
                                    /*@RequestParam("filetag")*/ String filetag,//文件标签

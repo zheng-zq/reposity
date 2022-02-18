@@ -4,8 +4,7 @@
 
     <!--mybatis:用于复杂的查询操作  有对应的xml文件:CourseMapper.xml-->
 
-    <select id="findCourseBaseById" parameterType="java.lang.String"
-            resultType="com.xuecheng.framework.domain.course.CourseBase">
+    <select id="findCourseBaseById" parameterType="java.lang.String" resultType="com.xuecheng.framework.domain.course.CourseBase">
         select * from course_base where id = #{id}
     </select>
     <!--分页查询-->

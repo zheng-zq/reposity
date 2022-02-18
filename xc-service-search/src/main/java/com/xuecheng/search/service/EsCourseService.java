@@ -198,7 +198,7 @@ public class EsCourseService {
 
         searchRequest.source(searchSourceBuilder);
         CoursePub coursePub = new CoursePub();
-        HashMap<String, CoursePub> map = new HashMap<>();
+        HashMap<String, CoursePub> map = new HashMap<>(16);
         try {
             SearchResponse search = restHighLevelClient.search(searchRequest);
             SearchHits hits = search.getHits();

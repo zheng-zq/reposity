@@ -12,6 +12,9 @@ import lombok.ToString;
 
 @ToString
 public enum LearningCode implements ResultCode {
+    /**
+     *
+     */
     LEARNING_GETMEDIA_ERROR(false, 23001, "获取学习地址失败！");
 
     //操作是否成功

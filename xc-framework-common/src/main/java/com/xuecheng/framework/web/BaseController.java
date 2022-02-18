@@ -14,7 +14,7 @@ public class BaseController {
 
     protected HttpServletResponse response;
 
-    protected HttpSession session;
+    private HttpSession session;
 
     @ModelAttribute
     public void setReqAndRes(HttpServletRequest request, HttpServletResponse response) {

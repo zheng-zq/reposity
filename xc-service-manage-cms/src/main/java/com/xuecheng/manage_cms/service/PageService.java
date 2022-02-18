@@ -109,22 +109,22 @@ public class PageService {
         if (StringUtils.isNotEmpty(queryPageRequest.getTemplateId())) {
             cmsPage.setTemplateId(queryPageRequest.getTemplateId());
         }
-
-//        Example<Object> example = Example.of(cmsPage,exampleMatcher);
-        Example<CmsPage> example = Example.of(cmsPage, exampleMatcher);//定义example
+        //定义example
+        Example<CmsPage> example = Example.of(cmsPage, exampleMatcher);
 
 
         if (page <= 0) {
             page = 1;
         }
-        page = page - 1;//为了适应mongdb的接口将页码减1
+        //为了适应mongdb的接口将页码减1
+        page = page - 1;
         if (size <= 0) {
             size = 20;
         }
         //分页对象
-        PageRequest pageable = new PageRequest(page, size);
+        // PageRequest pageable = new PageRequest(page, size);
         //分页查询
-        Page<CmsPage> all = cmsPageRepository.findAll(example, pageable);
+        Page<CmsPage> all = cmsPageRepository.findAll(example, PageRequest.of(page, size));
         QueryResult<CmsPage> cmsPageQueryResult = new QueryResult<CmsPage>();
         cmsPageQueryResult.setList(all.getContent());
         cmsPageQueryResult.setTotal(all.getTotalElements());
@@ -355,7 +355,7 @@ public class PageService {
         }
         String siteId = cmsPage.getSiteId();
         //1  创建消息对象
-        HashMap<String, String> msg = new HashMap<>();
+        HashMap<String, String> msg = new HashMap<>(16);
         msg.put("pageId", pageId);
         //2  转成json字符串
         String jsonString = JSON.toJSONString(msg);

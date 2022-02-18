@@ -20,7 +20,7 @@ public class MD5Util {
     /**
      * The Constant HEX_DIGITS.
      */
-    private static final char HEX_DIGITS[] = {'0', '1', '2', '3', '4', '5',
+    private static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5',
             '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     static {
@@ -48,17 +48,18 @@ public class MD5Util {
                 MD5.update(buffer, 0, length);
             }
 
-            return new String(encodeHex(MD5.digest()));
+            return encodeHex(MD5.digest());
         } catch (FileNotFoundException e) {
             throw e;
-        } catch (IOException e) {
-            throw e;
+        } catch (IOException ie) {
+            throw ie;
         } finally {
             try {
-                if (fileInputStream != null)
+                if (fileInputStream != null) {
                     fileInputStream.close();
-            } catch (IOException e) {
-                throw e;
+                }
+            } catch (IOException ex) {
+                throw ex;
             }
         }
     }
@@ -72,7 +73,7 @@ public class MD5Util {
      */
     public static String getFileMD5String(byte[] data) throws IOException {
         MD5.update(data);
-        return new String(encodeHex(MD5.digest()));
+        return encodeHex(MD5.digest());
     }
 
     /**
@@ -81,7 +82,7 @@ public class MD5Util {
      * @param bytes the bytes
      * @return the string
      */
-    public static String encodeHex(byte bytes[]) {
+    public static String encodeHex(byte[] bytes) {
         return bytesToHex(bytes, 0, bytes.length);
 
     }
@@ -94,7 +95,7 @@ public class MD5Util {
      * @param end   the end
      * @return the string
      */
-    public static String bytesToHex(byte bytes[], int start, int end) {
+    public static String bytesToHex(byte[] bytes, int start, int end) {
         StringBuilder sb = new StringBuilder();
         for (int i = start; i < start + end; i++) {
             sb.append(byteToHex(bytes[i]));

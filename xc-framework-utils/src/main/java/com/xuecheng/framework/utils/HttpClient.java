@@ -7,7 +7,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLContextBuilder;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -69,8 +69,9 @@ public class HttpClient {
 	}
 
 	public void addParameter(String key, String value) {
-		if (param == null)
-			param = new HashMap<String, String>();
+		if (param == null) {
+			param = new HashMap<String, String>(16);
+		}
 		param.put(key, value);
 	}
 
@@ -91,10 +92,11 @@ public class HttpClient {
 			StringBuilder url = new StringBuilder(this.url);
 			boolean isFirst = true;
 			for (String key : param.keySet()) {
-				if (isFirst)
+				if (isFirst) {
 					url.append("?");
-				else
+				} else {
 					url.append("&");
+				}
 				url.append(key).append("=").append(param.get(key));
 			}
 			this.url = url.toString();
@@ -109,8 +111,9 @@ public class HttpClient {
 	private void setEntity(HttpEntityEnclosingRequestBase http) {
 		if (param != null) {
 			List<NameValuePair> nvps = new LinkedList<NameValuePair>();
-			for (String key : param.keySet())
+			for (String key : param.keySet()) {
 				nvps.add(new BasicNameValuePair(key, param.get(key))); // 参数
+			}
 			http.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8)); // 设置参数
 		}
 		if (xmlParam != null) {
@@ -126,8 +129,9 @@ public class HttpClient {
 				SSLContext sslContext = new SSLContextBuilder()
 						.loadTrustMaterial(null, new TrustStrategy() {
 							// 信任所有
+							@Override
 							public boolean isTrusted(X509Certificate[] chain,
-									String authType)
+													 String authType)
 									throws CertificateException {
 								return true;
 							}
@@ -142,8 +146,9 @@ public class HttpClient {
 			CloseableHttpResponse response = httpClient.execute(http);
 			try {
 				if (response != null) {
-					if (response.getStatusLine() != null)
+					if (response.getStatusLine() != null) {
 						statusCode = response.getStatusLine().getStatusCode();
+					}
 					HttpEntity entity = response.getEntity();
 					// 响应内容
 					content = EntityUtils.toString(entity, Consts.UTF_8);

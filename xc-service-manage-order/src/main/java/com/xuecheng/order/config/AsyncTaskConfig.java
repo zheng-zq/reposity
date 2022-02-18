@@ -12,16 +12,23 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import java.util.concurrent.Executor;
 
 @Configuration
-@EnableScheduling//在这配入口函数(启动类就不用配了)  将@EnableScheduling添加到此配置类上，SpringBoot启动类上不用再添加@EnableScheduling
+@EnableScheduling
+/**
+ * //在这配入口函数(启动类就不用配了)  将@EnableScheduling添加到此配置类上，SpringBoot启动类上不用再添加@EnableScheduling
+ */
 public class AsyncTaskConfig implements SchedulingConfigurer, AsyncConfigurer {
-    //线程池线程数量
+    /**
+     * 线程池线程数量
+     */
     private int corePoolSize = 5;
 
     @Bean
     public ThreadPoolTaskScheduler taskScheduler() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-        scheduler.initialize();//初始化线程池
-        scheduler.setPoolSize(corePoolSize);//线程池容量
+        //初始化线程池
+        scheduler.initialize();
+        //线程池容量
+        scheduler.setPoolSize(corePoolSize);
         return scheduler;
     }
 

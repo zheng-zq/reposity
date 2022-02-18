@@ -26,7 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.util.*;
 
-//媒体文件操作
+/**
+ * 媒体文件操作
+ */
 @Service
 public class MediaUploadService {
 
@@ -64,7 +66,7 @@ public class MediaUploadService {
         }
         MediaFile mediaFile = optional.get();
         //1 向MQ发送消息
-        HashMap<String, String> msgMap = new HashMap<>();
+        HashMap<String, String> msgMap = new HashMap<>(16);
         msgMap.put("mediaId", mediaId);
         //消息内容
         String jsonString = JSON.toJSONString(msgMap);
@@ -150,20 +152,21 @@ public class MediaUploadService {
 
             outputStream = new FileOutputStream(chunkfile);
             IOUtils.copy(inputStream, outputStream);
+            return new ResponseResult(CommonCode.SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
+            return new ResponseResult(CommonCode.SUCCESS);
         } finally {
             try {
                 inputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ie) {
+                ie.printStackTrace();
             }
             try {
                 outputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
             }
-            return new ResponseResult(CommonCode.SUCCESS);
         }
     }
 

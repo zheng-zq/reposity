@@ -47,7 +47,7 @@ public class ChooseCourseTask {
             String valid = (String) map.get("valid");
             Date startTime = null;
             Date endTime = null;
-            SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             if (map.get("startTime") != null) {
                 startTime = dateFormat.parse((String) map.get("startTime"));
             }

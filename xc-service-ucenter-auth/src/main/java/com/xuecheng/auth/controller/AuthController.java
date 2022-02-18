@@ -46,6 +46,7 @@ public class AuthController implements AuthControllerApi {
 
     //  申请令牌,将令牌存储到cookie
     //登陆需要令牌 用户名 密码
+    @Override
     @PostMapping("/userlogin")
     public LoginResult login(LoginRequest loginRequest) {
         //首先校验用户名是否输入
@@ -77,6 +78,7 @@ public class AuthController implements AuthControllerApi {
     }
 
     //  退出清除令牌清除cookie
+    @Override
     @PostMapping("/userlogout")
     public ResponseResult logout() {
         //取出身份令牌
@@ -98,6 +100,7 @@ public class AuthController implements AuthControllerApi {
         CookieUtil.addCookie(response, cookieDomain, "/", "uid", token, 0, false);
     }
 
+    @Override
     @GetMapping("/userjwt")
     public JwtResult userjwt() {
         //获取cookie中的令牌

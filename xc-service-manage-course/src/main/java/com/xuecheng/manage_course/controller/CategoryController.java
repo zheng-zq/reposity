@@ -16,6 +16,7 @@ public class CategoryController implements CategoryControllerApi {
     CategoryService categoryService;
 
     //查询课程分类树形图
+    @Override
     @GetMapping("/list")
     public CategoryNode findList() {
         return categoryService.findList();

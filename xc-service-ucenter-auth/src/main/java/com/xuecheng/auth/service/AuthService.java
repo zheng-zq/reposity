@@ -109,9 +109,9 @@ public class AuthService {
             //获取spring security返回的错误信息
             String error_description = (String) map.get("error_description");
             if (StringUtils.isNotEmpty(error_description)) {
-                if (error_description.equals("坏的凭证")) {
+                if ("坏的凭证".equals(error_description)) {
                     ExceptionCast.cast(AuthCode.AUTH_CREDENTIAL_ERROR);
-                } else if (error_description.indexOf("UserDetailsService returned null") >= 0) {
+                } else if ("UserDetailsService returned null".contains(error_description)) {
                     ExceptionCast.cast(AuthCode.AUTH_ACCOUNT_NOTEXISTS);
                 }
             }

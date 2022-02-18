@@ -1,7 +1,11 @@
 package com.xuecheng.manage_cms.dao;
 
+import com.netflix.discovery.converters.Auto;
 import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.CmsPageParam;
+import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
+import com.xuecheng.framework.model.response.QueryResponseResult;
+import com.xuecheng.manage_cms.service.PageService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +28,29 @@ public class CmsPageRepositoryTest {
     @Autowired
     CmsPageRepository cmsPageRepository;
 
+    @Autowired
+    PageService pageService;
+
     @Test
     public void testFindAll() {
-        List<CmsPage> all = cmsPageRepository.findAll();
-        System.out.println(all);
+        // List<CmsPage> all = cmsPageRepository.findAll();
+        // System.out.println(all);
+        int page = 2;//从0开始
+        int size = 10;
+        QueryPageRequest queryPageRequest = new QueryPageRequest();
+        QueryResponseResult pageList = pageService.findList(page, size, queryPageRequest);
+        System.out.println(pageList);
+    }
+
+    @Test
+    public void testUpdateNew() {
+        String s = "5a754adf6abb500ad05688d9";
+        Optional<CmsPage> optional = cmsPageRepository.findById(s);
+        if(optional.isPresent()){
+            CmsPage cmsPage = optional.get();
+            cmsPage.setPageAliase(cmsPage.getPageAliase()+"test");
+            cmsPageRepository.save(cmsPage);
+        }
     }
 
     @Test

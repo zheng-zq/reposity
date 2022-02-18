@@ -49,7 +49,7 @@ public class LearningService {
 
 
     //完成选课  添加选课
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public ResponseResult addcourse(String userId, String courseId, String valid, Date startTime, Date endTime, XcTask xcTask) {
         if (StringUtils.isEmpty(courseId)) {//courseId校验
             ExceptionCast.cast(LearningCode.LEARNING_GETMEDIA_ERROR);

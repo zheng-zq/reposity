@@ -10,6 +10,7 @@ import lombok.ToString;
  */
 @ToString
 public enum PortalViewCode implements ResultCode {
+    //
     PortalView_ADDVIEWCOURSE_COURSEIDISNULL(false,42001,"课程id为空！"),
     PortalView_PUBLISH_PREVIEWCOURSE_ISNULL(false,42002,"预览课程视图为空！"),
     PortalView_PUBLISH_PREVIEWMEDIA_ISNULL(false,42003,"预览课程媒资视图为空！");

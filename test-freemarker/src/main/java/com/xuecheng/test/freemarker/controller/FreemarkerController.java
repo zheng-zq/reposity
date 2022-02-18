@@ -68,7 +68,7 @@ public class FreemarkerController {
         //将学生列表放在map数据模型中
         map.put("stus", stus);
         //准备map数据
-        HashMap<String, Student> stuMap = new HashMap<>();
+        HashMap<String, Student> stuMap = new HashMap<>(16);
         stuMap.put("stu1", stu1);
         stuMap.put("stu2", stu2);
         //向数据模型放数据

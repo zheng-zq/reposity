@@ -44,7 +44,7 @@ public class AuthService {
     }
 
     //3、从Redis查询user_token令牌是否过期，过期则拒绝访问
-    public long getExpire(String access_token) {
+    public Long getExpire(String access_token) {
         //token在redis中的key
         String key = "user_token:"+access_token;
         Long expire = stringRedisTemplate.getExpire(key);

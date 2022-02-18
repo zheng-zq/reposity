@@ -47,9 +47,10 @@ public class MediaFileService {
 
         page = page - 1;
         //分页参数
-        Pageable pageable = new PageRequest(page, size);
+        // Pageable pageable = new PageRequest(page, size);
+        PageRequest of = PageRequest.of(page, size);
         //分页查询
-        Page<MediaFile> all = mediaFileRepository.findAll(ex, pageable);
+        Page<MediaFile> all = mediaFileRepository.findAll(ex, of);
         //媒体文件查询结果
         QueryResult<MediaFile> mediaFileQueryResult = new QueryResult<>();
         //数据列表

@@ -18,6 +18,7 @@ public class SysDictionaryController implements SysDictionaryControllerApi {
     SysdictionaryService sysdictionaryService;
 
     //根据字典分类id(d_type)查询字典信息(课程等级,学习模式)
+    @Override
     @GetMapping("/get/{type}")
     public List<SysDictionary> getByType(@PathVariable("type") String type) {
         return sysdictionaryService.findDictionaryByType(type);

@@ -114,7 +114,7 @@ public class CourseService {
     }
 
     //添加教学计划页面
-    @Transactional//mysql支持事务,增删改添加事务,mongodb数据库不支持事务
+    @Transactional(rollbackFor=Exception.class)//mysql支持事务,增删改添加事务,mongodb数据库不支持事务
     public ResponseResult addTeachplan(Teachplan teachplan) {
         //首先判断父节点名字和课程id是否为空,为空的话响应'不合法的参数'异常
         if (teachplan == null ||
@@ -142,7 +142,7 @@ public class CourseService {
         Teachplan parentNode = optional.get();
         //*.2  通过页面查找父节点的级别
         String grade = parentNode.getParentid();
-        if (grade.equals("1")) {
+        if ("1".equals(grade)) {
             //添加节点要么是2,要么是3
             teachplanNew.setGrade("2");
         } else {
@@ -177,7 +177,7 @@ public class CourseService {
     }
 
     //我的课程新增按钮:将我的新增的课程页面信息提交到数据库
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public AddCourseResult addCourseBase(CourseBase courseBase) {
         //课程状态status默认为202001(未发布)
         courseBase.setStatus("202001");
@@ -197,7 +197,7 @@ public class CourseService {
     }
 
     //我的课程更新按钮:根据要修改的课程id更新数据库的课程页面信息
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public ResponseResult updateCoursebase(String id, CourseBase courseBase) {
         CourseBase one = this.getCoursebaseById(id);
         if (one == null) {
@@ -226,7 +226,7 @@ public class CourseService {
     }
 
     //根据要修改的我的课程id和用户更改的课程营销信息更新课程营销信息
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public CourseMarket updateCourseMarket(String id, CourseMarket courseMarket) {
         CourseMarket one = this.getCourseMarketById(id);
         if (one != null) {
@@ -249,7 +249,7 @@ public class CourseService {
     }
 
     //添加课程图片
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public ResponseResult saveCoursePic(String courseId, String pic) {
         //1  查询数据库课程图片
         Optional<CoursePic> picOptional = coursePicRepository.findById(courseId);
@@ -280,7 +280,7 @@ public class CourseService {
     }
 
     //根据课程id删除课程回显图片
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public ResponseResult deleteCoursePic(String courseId) {
         //执行删除图片,删除成功返回1,不成功返回0
         long num = coursePicRepository.deleteByCourseid(courseId);
@@ -371,7 +371,7 @@ public class CourseService {
     }
 
     //一键发布之课程发布
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public CoursePublishResult publish(String id) {
         //(1) 调用cms一键发布接口将课程详情页面发布到服务器
         //请求cms添加页面
@@ -443,7 +443,7 @@ public class CourseService {
         BeanUtils.copyProperties(coursePub, coursePubNew);
         coursePubNew.setId(id);
         coursePubNew.setTimestamp(new Date());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");//发布时间  首先设置发布时间格式
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//发布时间  首先设置发布时间格式
         String date = simpleDateFormat.format(new Date());
         coursePubNew.setPubTime(date);
         coursePubRepository.save(coursePubNew);
@@ -510,7 +510,7 @@ public class CourseService {
         Teachplan teachplan = teachplanOptional.get();
         //  获得等级
         String grade = teachplan.getGrade();
-        if (StringUtils.isEmpty(grade) || !grade.equals("3")) {
+        if (StringUtils.isEmpty(grade) || !"3".equals(grade)) {
             //  只允许选择第三级的课程计划关联视频!
             ExceptionCast.cast(CourseCode.COURSE_MEDIA_TEACHPLAN_GRADEERROR);
         }

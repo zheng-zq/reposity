@@ -30,17 +30,17 @@ public class TaskService {
 
     //取出前n条任务,取出指定时间之前处理的任务
     public List<XcTask> findTaskList(Date updateTime, int n) {
-        //设置分页参数,取出前n条记录
-        PageRequest pageable = new PageRequest(0, n);
+        //设置分页参数,取出前n条记录0, n
+        // PageRequest pageable = new PageRequest(0, n);
         //获取指定时间前的总任务数并分页
-        Page<XcTask> xcTasks = xcTaskRepository.findByUpdateTimeBefore(pageable, updateTime);
+        Page<XcTask> xcTasks = xcTaskRepository.findByUpdateTimeBefore(PageRequest.of(0, n), updateTime);
         //取出分页后任务的内容
         List<XcTask> content = xcTasks.getContent();
         return content;
     }
 
     //发送消息
-    @Transactional
+    @Transactional(rollbackOn=Exception.class)
     public void publish(XcTask xcTask, String ex, String routingKey) {//xcTask 任务对象  ex 交换机id
 
         //查询任务
@@ -58,14 +58,14 @@ public class TaskService {
 
 
     //乐观锁方法更新数据表,如果结果大于0说明取到任务
-    @Transactional
+    @Transactional(rollbackOn=Exception.class)
     public int getTask(String taskId, int version) {
         int i = xcTaskRepository.updateTaskVersion(taskId, version);
         return i;
     }
 
     //根据任务id删除当前已完成任务
-    @Transactional
+    @Transactional(rollbackOn=Exception.class)
     public void finishTask(String taskId) {
         //根据任务id查询当前任务
         Optional<XcTask> taskOptional = xcTaskRepository.findById(taskId);

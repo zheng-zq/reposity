@@ -11,6 +11,7 @@ import lombok.ToString;
  */
 @ToString
 public enum OrderCode implements ResultCode {
+    //
     ORDER_ADD_ITEMISNULL(false,41001,"创建订单未选择课程！"),
     ORDER_ADD_ORDERNUMERROR(false,41002,"生成订单号错误！"),
     ORDER_ADD_GETCOURSEERROR(false,41003,"找不到课程信息！"),

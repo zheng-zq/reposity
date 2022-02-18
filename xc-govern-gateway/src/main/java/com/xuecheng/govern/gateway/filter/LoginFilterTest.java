@@ -34,6 +34,7 @@ public class LoginFilterTest extends ZuulFilter {
     }
 
     //过滤器的逻辑运行
+    @Override
     public Object run() {
         RequestContext requestContext = RequestContext.getCurrentContext();
         //得到request
