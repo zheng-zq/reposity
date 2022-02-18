@@ -55,6 +55,6 @@ public class Test00 {
         String s = map.toString();
         //转成json
         String jsonString = JSON.toJSONString(map);
-        System.out.println("测试");
+        System.out.println("");
     }
 }
